@@ -1,4 +1,5 @@
 # opfs
+<img src="docs/img/badges.svg">
 
 The browser's **Origin Private File System** (OPFS) from Go/TinyGo, as the ecosystem's whole-file
 contract ([`webtyp/files`](https://github.com/webtyp/files)): read, write and append whole files,
