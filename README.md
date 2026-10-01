@@ -12,3 +12,4 @@ data, err := fs.ReadFile("decider-0.8b.wtypw") // files.ErrNotExist when missing
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md) — why OPFS, how it reads and writes in chunks, blocking.
+- [Agent Instructions](AGENTS.md) — instructions and notes for automated agents.

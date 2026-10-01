@@ -1,0 +1,1 @@
+Browser-only implementation of `webtyp/files`. Tests run in a browser (`GOOS=js GOARCH=wasm go test -exec wasmbrowsertest ./...`). Do not use synchronous access handles: they do not exist in the page, where the tests run (docs/ARCHITECTURE.md).
