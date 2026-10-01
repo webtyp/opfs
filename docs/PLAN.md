@@ -3,8 +3,9 @@ PLAN: "feat: OPFS as files.Reader, files.Writer and files.Appender"
 TAG: v0.1.0
 EXECUTOR: jules
 REVIEWER: none
-STATUS: running
+STATUS: review
 SESSION: 1930191296648010563
+PR: https://github.com/webtyp/opfs/pull/1
 ---
 
 > This plan is dispatched via the CodeJob workflow. See skill: agents-workflow.
