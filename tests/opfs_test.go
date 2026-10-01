@@ -143,3 +143,36 @@ func TestOpenSameDirectoryTwice(t *testing.T) {
 		t.Fatalf("expected %q, got %q", data, got)
 	}
 }
+
+// TestRemoveFileNested removes a file in a subdirectory, keeps its sibling, and refuses to
+// remove the directory itself.
+func TestRemoveFileNested(t *testing.T) {
+	fs, err := opfs.Open(fmt.Sprintf("test-remove/%d", time.Now().UnixNano()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := fs.WriteFile("cote/v1/model.bin", []byte("old")); err != nil {
+		t.Fatal(err)
+	}
+	if err := fs.WriteFile("cote/v1/keep.bin", []byte("keep")); err != nil {
+		t.Fatal(err)
+	}
+	if err := fs.RemoveFile("cote/v1/model.bin"); err != nil {
+		t.Fatalf("RemoveFile: %v", err)
+	}
+	if _, err := fs.ReadFile("cote/v1/model.bin"); err != files.ErrNotExist {
+		t.Fatalf("ReadFile(removed) = %v, want files.ErrNotExist", err)
+	}
+	if got, err := fs.ReadFile("cote/v1/keep.bin"); err != nil || string(got) != "keep" {
+		t.Fatalf("sibling = %q, %v; want \"keep\"", got, err)
+	}
+	if err := fs.RemoveFile("cote/v1"); err == nil {
+		t.Fatal("RemoveFile(directory) succeeded; it must only remove files")
+	}
+	if got, err := fs.ReadFile("cote/v1/keep.bin"); err != nil || string(got) != "keep" {
+		t.Fatalf("after RemoveFile(directory) sibling = %q, %v; want \"keep\"", got, err)
+	}
+	if err := fs.RemoveFile("cote/missing/x.bin"); err != files.ErrNotExist {
+		t.Fatalf("RemoveFile(missing dir) = %v, want files.ErrNotExist", err)
+	}
+}

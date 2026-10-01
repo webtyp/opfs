@@ -18,6 +18,7 @@ type FS struct {
 var (
 	_ files.ReadWriter = (*FS)(nil)
 	_ files.Appender   = (*FS)(nil)
+	_ files.Remover    = (*FS)(nil)
 )
 
 // ChunkSize is how many bytes cross between JavaScript and Go at a time, so reading or writing

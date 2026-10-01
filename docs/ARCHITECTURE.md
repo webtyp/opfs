@@ -4,8 +4,8 @@
 
 **OPFS** (Origin Private File System) is a file system the browser gives each website, private
 to it and invisible to the user. `opfs` exposes it to Go/TinyGo as the ecosystem's whole-file
-contract, [`webtyp/files`](https://github.com/webtyp/files): `files.Reader`, `files.Writer` and
-`files.Appender`.
+contract, [`webtyp/files`](https://github.com/webtyp/files): `files.Reader`, `files.Writer`,
+`files.Appender` and `files.Remover`.
 
 You meet it when a model runs in the browser. Its weights (400–850 MB) are downloaded once,
 stored here, and read back on every later visit; the decision model's tool-list cache

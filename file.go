@@ -171,3 +171,27 @@ func (f *FS) AppendFile(path string, data []byte) error {
 	}
 	return nil
 }
+
+// RemoveFile deletes the file named by path, or returns files.ErrNotExist when it (or a
+// directory on its way) is missing. Directories are never removed: removeEntry is called without
+// {recursive}, so a path naming a directory fails instead of deleting what it holds.
+func (f *FS) RemoveFile(path string) error {
+	segments, ok := splitPath(path)
+	if !ok {
+		return fmt.Errf(errInvalidPath, path)
+	}
+	parentDir, err := f.parent(segments, false)
+	if err != nil {
+		return err
+	}
+	name := segments[len(segments)-1]
+	// removeEntry also removes an empty directory; checking for a file handle first keeps
+	// RemoveFile about files only.
+	if _, err := await.Promise(parentDir.Call("getFileHandle", name)); err != nil {
+		return browserError(err)
+	}
+	if _, err := await.Promise(parentDir.Call("removeEntry", name)); err != nil {
+		return browserError(err)
+	}
+	return nil
+}
